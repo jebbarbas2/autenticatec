@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}{% block header_title %}Home{% endblock %}{% endblock%}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block main %}
+<div class="grid">
+    <div class="s12 l6 video-wrapper">
+        <video id="videoUser" autoplay class="video"></video>
+        <button class="transparent circle video-facing-mode-toggler">
+            <i>flip_camera_android</i>
+        </button>
+    </div>
+    <div class="s12 l6 middle-align center-align">
+        <div>
+            <div class="field label border">
+                <input type="text" id="txtName">
+                <label>Name</label>
+            </div>
+
+            <button id="btnLogin">Login</button>
+            <button id="btnRegister">Register</button>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module" src="{{ url_for('static', filename='js/home/index.js') }}"></script>
+{% endblock %}

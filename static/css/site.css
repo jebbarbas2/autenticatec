@@ -1,0 +1,37 @@
+:root {
+
+}
+
+@media (orientation: landscape) {
+    :root {
+        --video-width: 50vw;
+        --video-height: 100vh;
+    }
+}
+
+@media (orientation: portrait) {
+    :root {
+        --video-width: 100vw;
+        --video-height: 50vh;
+    }
+}
+
+.video-wrapper {
+    position: relative;
+    height: var(--video-height);
+}
+
+.video-wrapper .video {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    object-fit: cover;
+}
+
+.video-wrapper .video-facing-mode-toggler {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin: 0.5rem;
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}{% endblock %} - Autenticatec</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/beer.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/beer.theme.css') }}">
+    <script type="module" src="{{ url_for('static', filename='js/beer.min.js') }}"></script>
+    <script type="module" src="{{ url_for('static', filename='js/material-dynamic-colors.min.js') }}"></script>
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/snackbar.min.css') }}">
+    <script src="{{ url_for('static', filename='js/snackbar.min.js') }}"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/site.css') }}">
+    {% block styles %}{% endblock %}
+</head>
+
+<body>
+    <header>
+        <nav>
+            <button class="circle transparent">
+                <i>menu</i>
+            </button>
+            <h5 class="max">{% block header_title %}{% endblock %}</h5>
+            <!-- <button class="circle transparent">
+                <img class="responsive" src="/favicon.png">
+            </button> -->
+        </nav>
+    </header>
+
+    {% if center_content %}
+    <main class="responsive middle-align center-align">
+    {% else %}
+    <main class="responsive">
+    {% endif %}
+        {% block main %}{% endblock %}
+    </main>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

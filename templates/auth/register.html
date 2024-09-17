@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% set center_content = True %}
+
+{% block title %}{% block header_title %}Register{% endblock%}{% endblock%}
+
+{% block styles %}
+{% endblock %}
+
+{% block main %}
+<article class="middle-align center-align">
+    <div class="grid">
+        <div class="s12">
+            <h5>Register a New User</h5>
+            <div class="space"></div>
+        </div>
+
+        <div class="s6">
+            <div class="field label border">
+                <input type="text">
+                <label>Control Number</label>
+            </div>
+        </div>
+
+        <div class="s6">
+            <div class="field label border">
+                <input type="email">
+                <label>Email</label>
+            </div>
+        </div>
+
+        <div class="s6">
+            <div class="field label border">
+                <input type="password">
+                <label>Password</label>
+            </div>
+        </div>
+
+        <div class="s6">
+            <div class="field label border">
+                <input type="password">
+                <label>Confirm Password</label>
+            </div>
+        </div>
+
+        <div class="s12">
+            <button class="responsive">Register</button>
+        </div>
+    </div>
+</article>
+{% endblock %}
+
+{% block scripts %}{% endblock %}
