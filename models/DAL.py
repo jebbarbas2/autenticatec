@@ -1,42 +1,37 @@
 import os
 import psycopg2 as psql
 
-class DAL:
-    def __init__(self):
-        self.__connection_string = os.environ.get('AIVEN_SERVICE_URI')
+def psql_fetchall(query: str, params: list = None):
+    connection_string = os.environ.get('AIVEN_SERVICE_URI')
+    assert type(connection_string) == str
 
-        assert type(self.__connection_string) == str        
+    conn = psql.connect(connection_string)
+    cur = conn.cursor()
     
-    def _psql_fetchall(self, query: str, params: tuple = None):
-        conn = psql.connect(self.__connection_string)
-        cur = conn.cursor()
-        
-        cur.execute(query, params)
+    cur.execute(query, params)
 
-        records = cur.fetchall()
-        return records
-    
-    def _psql_fetchone(self, query: str, params: tuple = None):
-        conn = psql.connect(self.__connection_string)
-        cur = conn.cursor()
-        
-        cur.execute(query, params)
+    records = cur.fetchall()
+    return records
 
-        records = cur.fetchone()
-        return records
+def psql_fetchone(query: str, params: list = None):
+    connection_string = os.environ.get('AIVEN_SERVICE_URI')
+    assert type(connection_string) == str
     
-    def _psql_fetchone(self, query: str, params: list = None):
-        conn = psql.connect(self.__connection_string)
-        cur = conn.cursor()
-        
-        cur.execute(query, params)
+    conn = psql.connect(connection_string)
+    cur = conn.cursor()
+    
+    cur.execute(query, params)
 
-        records = cur.fetchone()
-        return records
+    records = cur.fetchone()
+    return records
+
+def psql_execute_and_commit(query: str, params: list = None):
+    connection_string = os.environ.get('AIVEN_SERVICE_URI')
+    assert type(connection_string) == str
     
-    def _psql_execute_and_commit(self, query: str, params: list = None):
-        conn = psql.connect(self.__connection_string)
-        cur = conn.cursor()
-        
-        cur.execute(query, params)
-        conn.commit()
+    conn = psql.connect(connection_string)
+    cur = conn.cursor()
+    
+    cur.execute(query, params)
+    conn.commit()
+    

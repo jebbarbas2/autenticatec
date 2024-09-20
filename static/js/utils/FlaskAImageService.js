@@ -30,6 +30,9 @@ export class FlaskAImageService {
         const resBlob = await res.blob()
         const resURL = URL.createObjectURL(resBlob)
 
-        window.open(resURL, '_blank')
+        const img = document.getElementById('result')
+        if (img instanceof HTMLImageElement) {
+            img.src = resURL
+        }
     }
 }

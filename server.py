@@ -1,35 +1,37 @@
 from dotenv import load_dotenv
 import os
-from flask import Flask, request, render_template, jsonify, send_file
+from flask import Flask, request, render_template, redirect, url_for
 from FlaskAImage import FlaskAImage
 from Result import Result
-from models.User import User
 from models.UserDAL import UserDAL
+from validations import is_valid_str, is_valid_str_or_null
+from flask_login import LoginManager, login_user, logout_user, login_required
 
 load_dotenv()
 
+def status_401(error):
+    return redirect('login')
+
 app = Flask(__name__)
+app.secret_key = os.environ.get('SECRET_KEY')
+app.register_error_handler(401, status_401)
 
-def is_valid_str(param: any):
-    if not param: return False
-    if not isinstance(param, str): return False
-    if param.isspace(): return False
-    return True
+login_manager_app = LoginManager(app)
 
-def is_valid_str_or_null(param: any):
-    if param is None: return True
-    return is_valid_str(param)
+@login_manager_app.user_loader
+def load_user(id: int):
+    return UserDAL.get_using_id(id)
 
 @app.get("/")
 def index():
-    return render_template('home/index.html')
+    return redirect('login')
 
 @app.get('/register')
-def register_get():
+def get_register():
     return render_template('auth/register.html')
     
 @app.post('/register')
-def register_post():    
+def post_register():    
     try:
         body = request.get_json()
 
@@ -45,12 +47,47 @@ def register_post():
         if not is_valid_str(first_name): raise Exception(f'Parameter "firstName" is required and can\'t be whitespaces') 
         if not is_valid_str_or_null(last_name): raise Exception(f'Parameter "lastName" can\'t be whitespace') 
         
-        user = User(email=email, password=password, first_name=first_name, last_name=last_name, username=username)
-        row = UserDAL().create(user)
-
-        return Result.from_data(row)
+        user = UserDAL.create(email, password, first_name, last_name, username)
+        return Result.create(201, 'User successfully registered', { 'id': user.id })
     except Exception as ex:
         return Result.from_exception(ex)
+
+@app.get('/login')
+def get_login():
+    return render_template('auth/login.html')
+
+@app.post('/login')
+def post_login():
+    try:
+        body = request.get_json()
+
+        login = body.get('login')
+        password = body.get('password')
+
+        if not is_valid_str(login): raise Exception(f'Parameter "login" is required and can\'t be whitespaces') 
+        if not is_valid_str(password): raise Exception(f'Parameter "password" is required and can\'t be whitespaces') 
+        
+        user = UserDAL.login_using_email_or_username(login, password)
+
+        if user is None:
+            return Result.from_not_found('User not found or incorrect password')
+        
+        login_user(user)
+        return Result.from_data({ 'redirect_url': url_for('get_profile') })
+    except Exception as ex:
+        return Result.from_exception(ex)
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect('login')
+
+@app.get('/profile')
+@login_required
+def get_profile():
+    return render_template('profile/index.html')
+
 
 @app.post('/face-detection')
 def face_detection():

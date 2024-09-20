@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}{% block header_title %}My Profile{% endblock %}{% endblock%}
+
+{% block styles %}
+
+{% endblock %}
+
+{% block main %}
+<main>
+    Hola, {{ current_user.first_name }}
+</main>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

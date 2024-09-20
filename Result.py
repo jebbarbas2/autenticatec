@@ -28,4 +28,12 @@ class Result(Generic[T]):
     @staticmethod
     def from_exception(ex: Exception):
         return Result.create(500, str(ex), None)
+    
+    @staticmethod
+    def from_created():
+        return Result.create(201, 'OK', None)
+    
+    @staticmethod
+    def from_not_found(message: str):
+        return Result.create(404, message, None)
         

@@ -31,13 +31,7 @@
         </nav>
     </header>
 
-    {% if center_content %}
-    <main class="responsive middle-align center-align">
-    {% else %}
-    <main class="responsive">
-    {% endif %}
-        {% block main %}{% endblock %}
-    </main>
+    {% block main %}{% endblock %}
     {% block scripts %}{% endblock %}
 </body>
 
