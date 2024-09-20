@@ -9,18 +9,18 @@ from flask_login import LoginManager, login_user, logout_user, login_required
 
 load_dotenv()
 
-def status_401(error):
-    return redirect('login')
-
 app = Flask(__name__)
 app.secret_key = os.environ.get('SECRET_KEY')
-app.register_error_handler(401, status_401)
 
 login_manager_app = LoginManager(app)
 
 @login_manager_app.user_loader
 def load_user(id: int):
     return UserDAL.get_using_id(id)
+
+@login_manager_app.unauthorized_handler
+def status_401():
+    return redirect('login')
 
 @app.get("/")
 def index():
