@@ -21,15 +21,49 @@
 <body>
     <header>
         <nav>
-            <button class="circle transparent">
+            <button class="circle transparent" data-ui="dialog">
                 <i>menu</i>
             </button>
             <h5 class="max">{% block header_title %}{% endblock %}</h5>
-            <!-- <button class="circle transparent">
-                <img class="responsive" src="/favicon.png">
-            </button> -->
+
+            {% if current_user.is_authenticated %}
+                <button class="circle transparent">
+                    <i>more_vert</i>
+                    <menu class="left no-wrap">
+                        <a class="row" href="{{ url_for('logout') }}">
+                            <i>logout</i>
+                            <span>Logout</span>
+                        </a>
+                    </menu>
+                </button>
+            {% endif %}
         </nav>
     </header>
+
+    <dialog class="left no-padding">
+        <nav class="drawer">
+            <header>
+                <nav>
+                    <h6 class="max"></h6>
+                    <button class="transparent circle large" data-ui="dialog">
+                        <i>close</i>
+                    </button>
+                </nav>
+            </header>
+
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('profile') }}" class="{% if request.path == url_for('profile') %}active{% endif %}">
+                    <i>person</i>
+                    <span>Profile</span>
+                </a>
+            {% else %}
+                <a href="{{ url_for('logout') }}" class="{% if request.path == url_for('login') %}active{% endif %}">
+                    <i>login</i>
+                    <span>Login</span>
+                </a>
+            {% endif %}
+        </nav>
+    </dialog>
 
     {% block main %}{% endblock %}
     {% block scripts %}{% endblock %}

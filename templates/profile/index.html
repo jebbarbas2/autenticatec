@@ -1,14 +1,20 @@
 {% extends 'base.html' %}
 
-{% block title %}{% block header_title %}My Profile{% endblock %}{% endblock%}
+{% block title %}{% block header_title %}Profile{% endblock %}{% endblock%}
 
 {% block styles %}
 
 {% endblock %}
 
 {% block main %}
-<main>
-    Hola, {{ current_user.first_name }}
+<main class="responsive">
+    <h4>My Faces</h4>
+    <p>This faces are stored and used to allow the facial recognition. You currently have 0 faces.</p>
+    <div id="faces"></div>
+    <button class="responsive">
+        <i>add</i>
+        Add Face
+    </button>
 </main>
 {% endblock %}
 

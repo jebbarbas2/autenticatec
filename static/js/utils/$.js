@@ -18,15 +18,14 @@ export class DummyQuery {
     }
 
     get matches() { return this.#matches }
-
-    get #match() { return this.#matches[0] }
+    get match() { return this.#matches[0] }
 
     /**
      * @param {string} name 
      * @param {any} [value]
      */
     prop(name, value) {
-        if (value === undefined) return this.#match[name]
+        if (value === undefined) return this.match[name]
         this.#matches.forEach(match => match[name] = value)
         return this
     }

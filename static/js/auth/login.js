@@ -41,6 +41,18 @@ streamingState.addChangeListener(async streaming => {
 //     _flaskAImageService.a(blob)
 // }
 
+txtLogin.on('keypress', e => {
+    if (e.key === 'Enter') {
+        txtPassword.match.focus()
+    }
+})
+
+txtPassword.on('keypress', e => {
+    if (e.key === 'Enter') {
+        btnLogin.match.click()
+    }
+})
+
 btnLogin.on('click', async e => {
     const login = txtLogin.val() + ''
     const password = txtPassword.val() + ''
